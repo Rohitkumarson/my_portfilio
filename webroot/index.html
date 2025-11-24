@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rohit Kumar - AI/ML Full Stack Developer</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --accent: #ec4899;
+            --dark: #1e293b;
+            --light: #ffffff;
+            --text: #334155;
+            --text-light: #64748b;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            transform: translateY(-100%);
+            animation: slideDown 0.6s forwards 0.3s;
+        }
+        
+        @keyframes slideDown {
+            to { transform: translateY(0); }
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1.2rem;
+            border-radius: 8px;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 50%;
+            width: 0; height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transition: all 0.3s;
+            transform: translateX(-50%);
+        }
+        
+        nav a:hover::after, nav a.active::after {
+            width: 80%;
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 6rem 2rem 2rem;
+            position: relative;
+        }
+        
+        .hero-content {
+            max-width: 900px;
+            opacity: 0;
+            animation: fadeInUp 1s forwards 0.5s;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                transform: translateY(30px);
+            }
+        }
+        
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+        
+        .typing-text {
+            font-size: clamp(1.2rem, 4vw, 2rem);
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            min-height: 3rem;
+        }
+        
+        .hero-description {
+            font-size: clamp(1rem, 2vw, 1.1rem);
+            line-height: 1.8;
+            color: var(--text-light);
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(139, 92, 246, 0.4);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        /* Sections */
+        section {
+            padding: 60px 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        section#about {
+            padding-top: 40px;
+        }
+        
+        h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+        
+        h2::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+        
+        /* Cards */
+        .card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.4s;
+            opacity: 0;
+            transform: translateY(50px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15);
+        }
+        
+        .card h3 {
+            color: var(--primary);
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            margin-bottom: 0.5rem;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .company {
+            color: var(--text-light);
+            font-weight: 600;
+        }
+        
+        .date {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .tag {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .tag:hover {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            transform: scale(1.05);
+        }
+        
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        /* Skills */
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        /* Contact */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+        
+        .contact-item {
+            padding: 2rem;
+            background: #ffffff;
+            border-radius: 15px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .contact-item:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.1);
+        }
+        
+        .contact-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        footer {
+            background: #f8fafc;
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        /* Mobile Menu Toggle */
+        .menu-toggle {
+            display: none;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem;
+            }
+            
+            nav ul {
+                gap: 0.5rem;
+                font-size: 0.9rem;
+            }
+            
+            nav a {
+                padding: 0.4rem 0.8rem;
+            }
+            
+            section {
+                padding: 60px 1rem;
+            }
+            
+            .hero {
+                padding: 5rem 1rem 2rem;
+            }
+            
+            .btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .skills-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            nav ul {
+                gap: 0.3rem;
+                font-size: 0.8rem;
+            }
+            
+            nav a {
+                padding: 0.3rem 0.6rem;
+            }
+            
+            .card h3 {
+                font-size: 1.1rem;
+            }
+            
+            .tag {
+                font-size: 0.75rem;
+                padding: 0.3rem 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#home" class="active">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#experience">Experience</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Rohit Kumar</h1>
+            <div class="typing-text" id="typing-text"></div>
+            <p class="hero-description">
+                AI/ML Developer & Backend Engineer with 2 years of experience building production-ready AI systems and RAG pipelines. Skilled in model development, MLOps, Python automation, and workflow orchestration with n8n, Langflow, Zapier, and Zoho. Experienced in creating end-to-end automation pipelines, web scraping solutions, and robust backend architectures that drive measurable impact.
+            </p>
+            <div class="cta-buttons">
+                <a href="mailto:rohitkrsoni1999@gmail.com" class="btn btn-primary">Get In Touch</a>
+                <a href="#projects" class="btn btn-secondary">View Projects</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <h2>About Me</h2>
+        <div class="card visible">
+            <p style="font-size:1.1rem; line-height:1.8; text-align:center; color:#64748b;">
+                Passionate AI/ML Developer with expertise in building intelligent systems using Python, deep learning frameworks, and modern AI tools. Specialized in developing RAG architectures, fine-tuning transformer models, and creating end-to-end machine learning pipelines. 
+                <br><br>
+                <strong>B.Tech in Computer Science & Engineering</strong> — Swami Vivekanand Group of Institute (GPA: 8.5)
+                <br>
+                Mohali, India
+            </p>
+        </div>
+    </section>
+
+    <section id="experience">
+        <h2>Professional Experience</h2>
+        
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h3>Associate AI/ML Engineer</h3>
+                    <div class="company">EMINENCE INTERNET TECHNOLOGY PVT. LTD.</div>
+                </div>
+                <div class="date">April 2024 — Present | Mohali, India</div>
+            </div>
+            <ul style="line-height:1.8; color:#64748b; padding-left:1.5rem;">
+                <li>Developed and deployed AI/ML models leveraging LangChain and LangGraph for data-driven decision-making</li>
+                <li>Specialized in NLP, transformers, and deep learning to optimize model performance</li>
+                <li>Built production RAG systems with vector databases (Chroma, Pinecone)</li>
+                <li>Implemented real-time chatbots with TTS/STT capabilities and WebSocket integration</li>
+            </ul>
+            <div class="tags">
+                <span class="tag">LangChain</span>
+                <span class="tag">LangGraph</span>
+                <span class="tag">PyTorch</span>
+                <span class="tag">RAG</span>
+                <span class="tag">NLP</span>
+                <span class="tag">FastAPI</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                <div>
+                    <h3>Software Developer</h3>
+                    <div class="company">Shine Dezign Pvt Ltd</div>
+                </div>
+                <div class="date">6 months</div>
+            </div>
+            <p style="color:#64748b;">Developed web applications focusing on optimal user experience and performance.</p>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2>Featured Projects</h2>
+        <div class="projects-grid">
+            <div class="card">
+                <h3>🎥 Video Analysis with OpenAI</h3>
+                <p style="color:#64748b; line-height:1.7;">
+Developed a video analysis tool using OpenAI and Python to extract insights from both video and audio content. Video frames were captured with OpenCV, and audio was extracted using Whisper. Both were sent to an LLM for analysis. Responses were streamed in real-time via WebSockets, and Edge-TTS was integrated for generating audio output from the analyzed text.
+</p>
+
+                <div class="tags">
+                    <span class="tag">OpenAI</span>
+                    <span class="tag">Python</span>
+                    <span class="tag">WebSocket</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>📄 PDF/Image Text Extractor</h3>
+                <p style="color:#64748b; line-height:1.7;">
+Developed a PDF text extraction tool using OCR and PyPDF to process documents efficiently. Integrated LlamaParse for advanced data processing, enabling structured information retrieval and improved analysis of unstructured text.
+</p>
+
+                <div class="tags">
+                    <span class="tag">OCR</span>
+                    <span class="tag">LlamaParse</span>
+                    <span class="tag">PyPDF</span>
+                    <span class="tag">OpenAI</span>
+                    <span class="tag">LangChain</span>
+
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>💬 AI Chatbot</h3>
+                <p style="color:#64748b; line-height:1.7;">
+Developed an interactive chatbot using LangChain and OpenAI, with ChromaDB for context management. Features TTS/STT for voice interactions, dynamic real-time responses via WebSockets, and automatically sends the chat transcript via email in HTML format using an SMTP server after each conversation.
+</p>
+
+                <div class="tags">
+    <span class="tag">LangChain</span>
+    <span class="tag">ChromaDB</span>
+    <span class="tag">OpenAI</span>
+    <span class="tag">TTS/STT</span>
+    <span class="tag">WebSockets</span>
+    <span class="tag">SMTP</span>
+    <span class="tag">HTML Email</span>
+</div>
+
+            </div>
+
+            <div class="card">
+            <h3>🎯 Fine-Tuned Sentiment Analysis</h3>
+            <p style="color:#64748b; line-height:1.7;">
+                Fine-tuned BERT and T5 transformer models for sentiment analysis, optimizing performance on custom datasets using transfer learning and advanced preprocessing techniques to achieve high accuracy.
+            </p>
+            <div class="tags">
+                <span class="tag">BERT</span>
+                <span class="tag">T5</span>
+                <span class="tag">Transfer Learning</span>
+                <span class="tag">NLP</span>
+                <span class="tag">Sentiment Analysis</span>
+            </div>
+        </div>
+
+
+            <div class="card">
+            <h3>🤖 Remote Device Control for Hisense TV and Amazon Fire TV</h3>
+            <p style="color:#64748b; line-height:1.7;">
+                Developed a remote control application for Hisense TV and Amazon Fire TV using ADB and MQTT. Enabled seamless device communication, automation of Android devices, and real-time command execution for smart device management.
+            </p>
+            <div class="tags">
+                <span class="tag">ADB</span>
+                <span class="tag">MQTT</span>
+                <span class="tag">IoT</span>
+            </div>
+        </div>
+
+
+        <div class="card">
+            <h3>🔢 CNN Digit Recognition</h3>
+            <p style="color:#64748b; line-height:1.7;">
+                Developed and trained a Convolutional Neural Network (CNN) for handwritten digit recognition. Improved model accuracy using deep learning techniques, optimized architecture, and data preprocessing for robust performance.
+            </p>
+            <div class="tags">
+                <span class="tag">CNN</span>
+                <span class="tag">PyTorch</span>
+                <span class="tag">Computer Vision</span>
+                <span class="tag">Deep Learning</span>
+            </div>
+        </div>
+
+    <div class="card">
+    <h3>🎙️Speech-to-Speech Bot</h3>
+    <p style="color:#64748b; line-height:1.7;">
+        Developed a real-time conversational AI system that listens to user speech, converts it into text using Whisper STT, understands the meaning with an LLM, detects emotion, and responds with expressive Text-to-Speech (TTS). Designed for natural, human-like interactions with multi-model support and modular architecture.
+    </p>
+    <div class="tags">
+        <span class="tag">Whisper STT</span>
+        <span class="tag">Coqui TTS</span>
+        <span class="tag">LLM</span>
+        <span class="tag">Emotion Detection</span>
+        <span class="tag">SoundDevice</span>
+        <span class="tag">Pydub</span>
+    </div>
+</div>
+
+<div class="card">
+    <h3>📩 AI-Powered Customer Complaint Handling System</h3>
+    <p style="color:#64748b; line-height:1.7;">
+        Developed an AI-driven system using CrewAI and Python to automate customer complaint handling. The system extracts key details from text and audio inputs, classifies complaints, verifies policies, generates structured responses, and integrates with a CRM for storing complaint data.
+    </p>
+    <div class="tags">
+        <span class="tag">CrewAI</span>
+        <span class="tag">OpenAI API</span>
+        <span class="tag">MySQL</span>
+        <span class="tag">CRM Integration</span>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🎤Speech-to-Speech Bot</h3>
+    <p style="color:#64748b; line-height:1.7;">
+        Developed a high-performance, real-time speech-to-speech AI bot with ultra-low latency (~1.5s). Users can ask questions verbally and receive spoken responses powered by document-based knowledge retrieval from a ChromaDB vector database. The system uses Deepgram for speech-to-text, Groq LLM for fast AI responses, and ElevenLabs for natural voice synthesis.
+    </p>
+    <div class="tags">
+        <span class="tag">Deepgram STT</span>
+        <span class="tag">ChromaDB</span>
+        <span class="tag">Groq LLM</span>
+        <span class="tag">ElevenLabs TTS</span>
+        <span class="tag">Web Interface</span>
+    </div>
+</div>
+<div class="card">
+    <h3>🤖 N8N Multi-Agent AI Workflow System</h3>
+    <p style="color:#64748b; line-height:1.7;">
+        Developed a sophisticated n8n workflow implementing dual AI agents with persistent memory, webhook triggers, and intelligent request routing. The system supports context-aware conversations using OpenAI Chat Models and MongoDB for conversation history, enabling scalable and modular multi-agent automation.
+    </p>
+    <div class="tags">
+        <span class="tag">n8n</span>
+        <span class="tag">OpenAI</span>
+        <span class="tag">MongoDB</span>
+        <span class="tag">Webhook</span>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🎥 InstantMeet - Real-Time Video Meeting App</h3>
+    <p style="color:#64748b; line-height:1.7;">
+        Developed a real-time video meeting application using FastAPI and WebRTC, providing seamless audio/video communication with low latency. Features include instant meeting creation, multi-participant support, text chat, user authentication, OTP-based password recovery, and optional meeting recordings.
+    </p>
+    <div class="tags">
+        <span class="tag">Python</span>
+        <span class="tag">FastAPI</span>
+        <span class="tag">WebRTC</span>
+        <span class="tag">WebSocket</span>
+        <span class="tag">UDP</span>
+        <span class="tag">SQLite</span>
+        <span class="tag">HTML5</span>
+        <span class="tag">CSS3</span>
+        <span class="tag">JavaScript</span>
+    </div>
+</div>
+<div class="card">
+    <h3>💻 Command Intent Classifier</h3>
+    <p style="color:#64748b; line-height:1.7;">
+        Built a transformer-based system to classify Linux commands and natural language instructions into predefined intents. Fine-tuned the LLaMA 3.1 8B model using prompt-completion datasets for AI terminal assistants, DevOps automation, ChatOps tools, and custom command understanding systems.
+    </p>
+    <div class="tags">
+        <span class="tag">Python</span>
+        <span class="tag">LLaMA 3.1</span>
+        <span class="tag">Transformer</span>
+        <span class="tag">NLP</span>
+    </div>
+</div>
+
+    </section>
+
+    <section id="skills">
+        <h2>Technical Skills</h2>
+        <div class="skills-container">
+            <div class="card">
+                <h3 style="color:#334155; margin-bottom:1.5rem;">AI/ML & Deep Learning</h3>
+                <div class="tags">
+                    <span class="tag">PyTorch</span>
+                    <span class="tag">TensorFlow</span>
+                    <span class="tag">Transformers</span>
+                    <span class="tag">LangChain</span>
+                    <span class="tag">NLP</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="color:#334155; margin-bottom:1.5rem;">Backend & APIs</h3>
+                <div class="tags">
+                    <span class="tag">FastAPI</span>
+                    <span class="tag">Django</span>
+                    <span class="tag">Flask</span>
+                    <span class="tag">Python</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="color:#334155; margin-bottom:1.5rem;">Databases & Vector Stores</h3>
+                <div class="tags">
+                    <span class="tag">PostgreSQL</span>
+                    <span class="tag">MongoDB</span>
+                    <span class="tag">ChromaDB</span>
+                    <span class="tag">Pinecone</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 style="color:#334155; margin-bottom:1.5rem;">DevOps & Tools</h3>
+                <div class="tags">
+                    <span class="tag">Docker</span>
+                    <span class="tag">Git/GitHub</span>
+                    <span class="tag">Linux</span>
+                    <span class="tag">Redis</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Let's Connect</h2>
+        <div class="contact-grid">
+            <div class="contact-item">
+                <div class="contact-icon">📧</div>
+                <h3 style="color:var(--primary); margin-bottom:0.5rem;">Email</h3>
+                <a href="mailto:rohitkrsoni1999@gmail.com" style="color:#64748b; text-decoration:none;">rohitkrsoni1999@gmail.com</a>
+            </div>
+
+            <div class="contact-item">
+                <div class="contact-icon">📱</div>
+                <h3 style="color:var(--primary); margin-bottom:0.5rem;">Phone</h3>
+                <p style="color:#64748b;">+91 7783805286</p>
+            </div>
+
+            <div class="contact-item">
+                <div class="contact-icon">💼</div>
+                <h3 style="color:var(--primary); margin-bottom:0.5rem;">LinkedIn</h3>
+                <a href="https://linkedin.com/in/rohit-kumar-0993ab232" target="_blank" style="color:#64748b; text-decoration:none;">View Profile</a>
+            </div>
+
+            <div class="contact-item">
+                <div class="contact-icon">💻</div>
+                <h3 style="color:var(--primary); margin-bottom:0.5rem;">GitHub</h3>
+                <a href="https://github.com/Rohitkumarsony?tab=repositories" target="_blank" style="color:#64748b; text-decoration:none;">View Repositories</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Rohit Kumar • AI/ML Developer • Built with ❤️ and Code</p>
+    </footer>
+
+    <script>
+        // Typing effect
+        const texts = ['AI/ML Backend Developer', 'Building Intelligent Systems'];
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingElement = document.getElementById('typing-text');
+
+        function type() {
+            const current = texts[textIndex];
+            if (isDeleting) {
+                typingElement.textContent = current.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingElement.textContent = current.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            if (!isDeleting && charIndex === current.length) {
+                setTimeout(() => isDeleting = true, 2000);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % texts.length;
+            }
+
+            setTimeout(type, isDeleting ? 50 : 100);
+        }
+        type();
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // Active nav on scroll
+        window.addEventListener('scroll', () => {
+            let current = '';
+            document.querySelectorAll('section').forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+            document.querySelectorAll('nav a').forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('href') === `#${current}`) {
+                    a.classList.add('active');
+                }
+            });
+        });
+
+        // Intersection observer for cards
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.card').forEach(card => observer.observe(card));
+    </script>
+</body>
+</html>
