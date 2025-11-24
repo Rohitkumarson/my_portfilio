@@ -1,22 +1,14 @@
-# Use official Ubuntu as base image
-FROM ubuntu:22.04
+# Use official Nginx image
+FROM nginx:alpine
 
-# Set environment variables to avoid prompts during install
-ENV DEBIAN_FRONTEND=noninteractive
+# Remove default HTML files
+RUN rm -rf /usr/share/nginx/html/*
 
-# Update packages and install PHP + PHP CLI + other tools
-RUN apt-get update && \
-    apt-get install -y php php-cli unzip curl git && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+# Copy your static HTML files
+COPY ./webroot /usr/share/nginx/html
 
-# Set working directory inside container
-WORKDIR /var/www/html
+# Expose port 80
+EXPOSE 80
 
-# Copy your project files into the container
-COPY ./webroot /var/www/html
-
-# Expose port 8000
-EXPOSE 8000
-
-# Start PHP built-in server
-CMD ["php", "-S", "0.0.0.0:8000", "-t", "/var/www/html"]
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
