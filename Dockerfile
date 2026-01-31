@@ -1,14 +1,31 @@
-# Use official Nginx image
-FROM nginx:alpine
+FROM python:3.11-slim
 
-# Remove default HTML files
-RUN rm -rf /usr/share/nginx/html/*
+# Prevent Python buffering
+ENV PYTHONUNBUFFERED=1
 
-# Copy your static HTML files
-COPY ./webroot /usr/share/nginx/html
+# Install system dependencies for WeasyPrint
+RUN apt-get update && apt-get install -y \
+    libpangocairo-1.0-0 \
+    libpangoft2-1.0-0 \
+    libcairo2 \
+    libffi-dev \
+    shared-mime-info \
+    && rm -rf /var/lib/apt/lists/*
 
-# Expose port 80
-EXPOSE 80
+# Set workdir
+WORKDIR /app
 
-# Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Copy requirements
+COPY requirements.txt .
+
+# Install Python deps
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy app files
+COPY . .
+
+# Expose FastAPI port
+EXPOSE 8000
+
+# Start FastAPI
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
