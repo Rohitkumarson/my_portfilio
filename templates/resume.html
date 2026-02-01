@@ -20,14 +20,62 @@
         }
 
         .resume-container {
-            width: 210mm;
-            min-height: 297mm;
-            max-height: 297mm;
+            max-width: 210mm;
+            width: 100%;
+            min-height: auto;
             margin: 0 auto;
             padding: 12mm 15mm;
             background: #ffffff;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            overflow: hidden;
+            overflow: visible;
+        }
+
+        /* Mobile-specific adjustments - FIXED for single page */
+        @media screen and (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .resume-container {
+                padding: 6mm 8mm; /* Reduced padding */
+                width: calc(100% - 20px);
+            }
+
+            .download-btn {
+                bottom: 10px;
+                right: 10px;
+                padding: 10px 20px;
+                font-size: 12px;
+            }
+
+            /* Tighter spacing for mobile */
+            h2 {
+                margin-top: 4px !important;
+                margin-bottom: 2px !important;
+            }
+
+            .summary {
+                margin-bottom: 3px !important;
+                line-height: 1.2 !important;
+            }
+
+            .experience-item, .education-item, .project-item {
+                margin-bottom: 3px !important;
+            }
+
+            .job-description, .project-description {
+                margin-left: 10px !important;
+            }
+
+            .job-description li, .project-description li {
+                margin-bottom: 0.5px !important;
+                line-height: 1.2 !important;
+            }
+
+            .skills-grid {
+                gap: 1px !important;
+                margin-top: 2px !important;
+            }
         }
 
         .header {
@@ -45,11 +93,25 @@
             letter-spacing: 1px;
         }
 
+        @media screen and (max-width: 768px) {
+            h1 {
+                font-size: 18pt; /* Smaller on mobile */
+                margin-bottom: 1px;
+            }
+        }
+
         .title {
             font-size: 11pt;
             color: #2c5282;
             font-weight: 600;
             margin-bottom: 4px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .title {
+                font-size: 9.5pt;
+                margin-bottom: 2px;
+            }
         }
 
         .contact-info {
@@ -58,9 +120,17 @@
             line-height: 1.3;
         }
 
+        @media screen and (max-width: 768px) {
+            .contact-info {
+                font-size: 7pt; /* Smaller font */
+                line-height: 1.2;
+            }
+        }
+
         .contact-info a {
             color: #2c5282;
             text-decoration: none;
+            word-break: break-word;
         }
 
         h2 {
@@ -75,12 +145,24 @@
             letter-spacing: 0.8px;
         }
 
+        @media screen and (max-width: 768px) {
+            h2 {
+                font-size: 9pt;
+            }
+        }
+
         .summary {
             font-size: 8.5pt;
             line-height: 1.25;
             color: #000000;
             text-align: justify;
             margin-bottom: 5px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .summary {
+                font-size: 7.5pt;
+            }
         }
 
         .experience-item, .education-item, .project-item {
@@ -99,10 +181,22 @@
             display: inline-block;
         }
 
+        @media screen and (max-width: 768px) {
+            .job-title, .project-title {
+                font-size: 8.5pt;
+            }
+        }
+
         .company {
             font-size: 9pt;
             color: #2c5282;
             font-weight: 600;
+        }
+
+        @media screen and (max-width: 768px) {
+            .company {
+                font-size: 8pt;
+            }
         }
 
         .date {
@@ -112,11 +206,26 @@
             float: right;
         }
 
+        @media screen and (max-width: 768px) {
+            .date {
+                font-size: 7pt;
+                float: none;
+                display: block;
+                margin-top: 2px;
+            }
+        }
+
         .job-description, .project-description {
             margin-left: 14px;
             font-size: 8.5pt;
             color: #000000;
             margin-top: 1px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .job-description, .project-description {
+                font-size: 7.5pt;
+            }
         }
 
         .job-description li, .project-description li {
@@ -131,9 +240,23 @@
             margin-top: 4px;
         }
 
+        @media screen and (max-width: 768px) {
+            .skills-grid {
+                grid-template-columns: 1fr;
+                gap: 2px;
+            }
+        }
+
         .skill-item {
             font-size: 8.5pt;
             line-height: 1.2;
+        }
+
+        @media screen and (max-width: 768px) {
+            .skill-item {
+                font-size: 7.5pt;
+                line-height: 1.15;
+            }
         }
 
         .skill-label {
@@ -155,10 +278,22 @@
             color: #000000;
         }
 
+        @media screen and (max-width: 768px) {
+            .degree {
+                font-size: 8.5pt;
+            }
+        }
+
         .institution {
             font-size: 8.5pt;
             color: #2c5282;
             font-weight: 600;
+        }
+
+        @media screen and (max-width: 768px) {
+            .institution {
+                font-size: 7.5pt;
+            }
         }
 
         .education-details {
@@ -167,11 +302,23 @@
             margin-top: 1px;
         }
 
+        @media screen and (max-width: 768px) {
+            .education-details {
+                font-size: 7pt;
+            }
+        }
+
         .tech-stack {
             font-size: 8pt;
             color: #555555;
             font-style: italic;
             margin-top: 1px;
+        }
+
+        @media screen and (max-width: 768px) {
+            .tech-stack {
+                font-size: 7pt;
+            }
         }
 
         .clearfix::after {
@@ -221,9 +368,30 @@
                 box-shadow: none;
                 width: 100%;
                 min-height: auto;
+                max-width: 100%;
+                padding: 12mm 15mm;
             }
             .download-btn {
                 display: none;
+            }
+            
+            /* Ensure single page print on mobile */
+            @page {
+                size: A4;
+                margin: 0;
+            }
+            
+            h2 {
+                margin-top: 4px;
+                margin-bottom: 2px;
+            }
+            
+            .experience-item, .project-item {
+                margin-bottom: 3px;
+            }
+            
+            .summary {
+                margin-bottom: 3px;
             }
         }
     </style>
@@ -364,6 +532,11 @@
     </button>
 
     <script>
+        function isMobile() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+                   || window.innerWidth < 768;
+        }
+
         async function downloadPDF() {
             const button = document.getElementById('downloadBtn');
             button.textContent = '⏳ Generating...';
@@ -371,32 +544,61 @@
             button.disabled = true;
 
             try {
+                // For mobile, use window.print() as fallback
+                if (isMobile()) {
+                    window.print();
+                    button.textContent = '✅ Print Dialog Opened!';
+                    setTimeout(() => {
+                        button.textContent = '📥 Download PDF';
+                        button.classList.remove('downloading');
+                        button.disabled = false;
+                    }, 2000);
+                    return;
+                }
+
                 const element = document.getElementById('resume');
+                
+                // Scroll to top to ensure full capture
+                window.scrollTo(0, 0);
                 
                 // Use html2canvas to capture the element
                 const canvas = await html2canvas(element, {
                     scale: 2,
                     useCORS: true,
                     logging: false,
-                    width: element.offsetWidth,
-                    height: element.offsetHeight,
+                    width: element.scrollWidth,
+                    height: element.scrollHeight,
                     windowWidth: element.scrollWidth,
                     windowHeight: element.scrollHeight,
-                    backgroundColor: '#ffffff'
+                    backgroundColor: '#ffffff',
+                    scrollY: -window.scrollY,
+                    scrollX: -window.scrollX,
                 });
 
                 // Calculate PDF dimensions (A4 size)
                 const imgWidth = 210; // A4 width in mm
                 const pageHeight = 297; // A4 height in mm
                 const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                let heightLeft = imgHeight;
                 
                 const imgData = canvas.toDataURL('image/jpeg', 1.0);
                 
                 const { jsPDF } = window.jspdf;
                 const pdf = new jsPDF('p', 'mm', 'a4');
                 
-                // Add image to PDF
-                pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, imgHeight);
+                let position = 0;
+                
+                // Add first page
+                pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+                
+                // Add additional pages if content is longer than one page
+                while (heightLeft > 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
                 
                 // Save the PDF
                 pdf.save('Rohit_Kumar_Resume.pdf');
@@ -413,6 +615,13 @@
                 button.textContent = '❌ Failed - Try Again';
                 button.classList.remove('downloading');
                 button.disabled = false;
+                
+                // Fallback to print dialog
+                setTimeout(() => {
+                    if (confirm('PDF generation failed. Would you like to use Print instead?')) {
+                        window.print();
+                    }
+                }, 500);
             }
         }
     </script>

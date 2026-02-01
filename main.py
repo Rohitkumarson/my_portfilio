@@ -1,28 +1,71 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.responses import HTMLResponse, Response
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from fastapi.openapi.docs import get_swagger_ui_html
 from weasyprint import HTML
 import os
+import secrets
 
-app = FastAPI()
+# -----------------------
+# App Configuration
+# -----------------------
+app = FastAPI(
+    docs_url=None,        # Disable default Swagger
+    redoc_url=None,
+    openapi_url="/openapi.json"
+)
 
+# -----------------------
+# Paths
+# -----------------------
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+TEMPLATE_DIR = os.path.join(BASE_DIR, "templates")
 
+# -----------------------
+# Swagger Protection
+# -----------------------
+security = HTTPBasic()
 
+def docs_auth(credentials: HTTPBasicCredentials = Depends(security)):
+    correct_user = secrets.compare_digest(credentials.username, "rohitkumar@9211#")
+    correct_pass = secrets.compare_digest(credentials.password, "rohit@777775577777")
+    if not (correct_user and correct_pass):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            headers={"WWW-Authenticate": "Basic"},
+        )
+
+@app.get("/docs", dependencies=[Depends(docs_auth)], include_in_schema=False)
+def protected_docs():
+    return get_swagger_ui_html(
+        openapi_url="/openapi.json",
+        title="Protected API Docs"
+    )
+
+# -----------------------
+# HTML Pages
+# -----------------------
 @app.get("/", response_class=HTMLResponse)
-def view_resume():
-    with open("templates/index.html", "r", encoding="utf-8") as f:
+def home_page():
+    with open(os.path.join(TEMPLATE_DIR, "index.html"), encoding="utf-8") as f:
         return f.read()
 
+@app.get("/ai-pipeline", response_class=HTMLResponse)
+def ai_pipeline_page():
+    with open(os.path.join(TEMPLATE_DIR, "chatbot_pipeline.html"), encoding="utf-8") as f:
+        return f.read()
 
 @app.get("/resume", response_class=HTMLResponse)
-def view_resume():
-    with open("templates/resume.html", "r", encoding="utf-8") as f:
+def resume_page():
+    with open(os.path.join(TEMPLATE_DIR, "resume.html"), encoding="utf-8") as f:
         return f.read()
 
-
+# -----------------------
+# PDF Download
+# -----------------------
 @app.get("/download-pdf")
 def download_pdf():
-    html_path = os.path.abspath("templates/resume.html")
-
+    html_path = os.path.join(TEMPLATE_DIR, "resume.html")
     pdf_bytes = HTML(filename=html_path).write_pdf()
 
     return Response(
