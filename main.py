@@ -75,3 +75,20 @@ def download_pdf():
             "Content-Disposition": "attachment; filename=Rohit_Kumar_AI_ML_Engineer.pdf"
         }
     )
+
+from fastapi.responses import FileResponse 
+
+@app.get("/sitemap.xml", include_in_schema=False)
+def sitemap():
+    return FileResponse(
+        path="sitemap.xml",
+        media_type="application/xml"
+    )
+
+@app.get("/robots.txt", include_in_schema=False)
+def robots():
+    return FileResponse(
+        path="robots.txt",
+        media_type="text/plain"
+    )
+
